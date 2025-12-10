@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="A practical guide to implementing production-ready RAG pipelines for Indian languages with semantic chunking and cross-encoder reranking.">
+    <title>Building Multilingual NLP Systems with RAG - Sanjay Sakhinala</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .blog-post-header {
+            padding: 120px 0 40px;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .blog-post-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .blog-post-meta-info {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .blog-post-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-lg);
+        }
+
+        .blog-post-content h2 {
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+            color: var(--accent-primary);
+        }
+
+        .blog-post-content h3 {
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .blog-post-content p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-secondary);
+        }
+
+        .blog-post-content ul,
+        .blog-post-content ol {
+            margin-bottom: var(--spacing-md);
+            padding-left: 2rem;
+        }
+
+        .blog-post-content li {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-secondary);
+        }
+
+        .blog-post-content code {
+            background: var(--bg-primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            color: var(--accent-primary);
+        }
+
+        .blog-post-content pre {
+            background: var(--bg-primary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            margin-bottom: var(--spacing-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .blog-post-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .blog-post-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .blog-post-content blockquote {
+            border-left: 4px solid var(--accent-primary);
+            padding-left: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .back-to-blog {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            transition: all var(--transition-fast);
+        }
+
+        .back-to-blog:hover {
+            gap: 0.75rem;
+        }
+
+        .blog-tags-post {
+            display: flex;
+            gap: var(--spacing-xs);
+            flex-wrap: wrap;
+            margin-top: var(--spacing-md);
+        }
+    </style>
+</head>
+
+<body data-theme="light">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="../index.html" class="logo-text">Sanjay<span class="logo-accent">Sakhinala</span></a>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html#home" class="nav-link">Home</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+                <li><a href="../index.html#projects" class="nav-link">Projects</a></li>
+                <li><a href="./index.html" class="nav-link">Blog</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Header -->
+    <header class="blog-post-header">
+        <div class="container">
+            <h1 class="blog-post-title">Building Multilingual NLP Systems with RAG</h1>
+            <div class="blog-post-meta-info">
+                <span>📅 October 2024</span>
+                <span>⏱️ 10 min read</span>
+                <span>✍️ Sanjay Bhargav</span>
+            </div>
+            <div class="blog-tags-post">
+                <span class="blog-tag">NLP</span>
+                <span class="blog-tag">RAG</span>
+                <span class="blog-tag">Multilingual</span>
+                <span class="blog-tag">FastAPI</span>
+                <span class="blog-tag">FAISS</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Blog Post Content -->
+    <article class="blog-post-content">
+        <div class="container">
+            <a href="./index.html" class="back-to-blog">← Back to Blog</a>
+
+            <h2>Introduction</h2>
+            <p>
+                Building NLP systems that work across India's linguistic diversity is challenging. With <strong>22
+                    official languages</strong> and hundreds of dialects, creating a single question-answering system
+                that serves all users requires careful architecture and multilingual expertise.
+            </p>
+
+            <p>
+                In this post, I'll walk through <strong>IndicRAG</strong>, a production-ready Retrieval-Augmented
+                Generation (RAG) pipeline I built to handle document Q&A across 12+ Indian languages, including Hindi,
+                Bengali, Tamil, Telugu, and more.
+            </p>
+
+            <h2>The Challenge: Multilingual Document Understanding</h2>
+            <p>
+                Traditional NLP systems face several obstacles in Indian language contexts:
+            </p>
+            <ul>
+                <li><strong>Script diversity:</strong> Devanagari, Dravidian, Perso-Arabic scripts require different
+                    processing</li>
+                <li><strong>Limited training data:</strong> Most models are English-centric</li>
+                <li><strong>Code-mixing:</strong> Users often switch between languages mid-sentence</li>
+                <li><strong>Domain-specific vocabulary:</strong> Technical and legal terms vary by language</li>
+                <li><strong>OCR challenges:</strong> Scanned documents have varied quality</li>
+            </ul>
+
+            <h2>RAG Architecture Overview</h2>
+            <p>
+                Retrieval-Augmented Generation combines the best of information retrieval and generative models:
+            </p>
+            <ol>
+                <li><strong>Document Ingestion:</strong> Process and chunk documents with context preservation</li>
+                <li><strong>Vector Encoding:</strong> Convert chunks to embeddings using multilingual models</li>
+                <li><strong>Semantic Search:</strong> Retrieve relevant chunks using FAISS vector similarity</li>
+                <li><strong>Reranking:</strong> Cross-encoder models improve retrieval precision</li>
+                <li><strong>Generation:</strong> Contextualized answer generation with mT5/mBERT</li>
+            </ol>
+
+            <h2>Component 1: Multilingual Document Processing</h2>
+
+            <h3>OCR Integration for Scanned PDFs</h3>
+            <p>
+                Many Indian language documents are scanned images. I integrated dual OCR engines:
+            </p>
+            <ul>
+                <li><strong>Tesseract:</strong> Lightweight, supports 100+ languages including all Indian scripts</li>
+                <li><strong>LayoutParser:</strong> Deep learning-based layout detection for complex documents</li>
+            </ul>
+
+            <pre><code>from tesseract import image_to_string
+from layoutparser import Detectron2LayoutModel
+
+# Multi-stage OCR pipeline
+def extract_text_multilingual(image_path, lang='hin+eng'):
+    layout = layout_model.detect(image_path)
+    text_blocks = []
+    for block in layout:
+        text = image_to_string(
+            block.crop_image(image_path),
+            lang=lang,
+            config='--psm 6'  # Uniform block of text
+        )
+        text_blocks.append(text)
+    return '\n'.join(text_blocks)</code></pre>
+
+            <h3>Semantic Chunking</h3>
+            <p>
+                Instead of naive fixed-size chunking, I implemented <strong>semantic boundary detection</strong>:
+            </p>
+            <ul>
+                <li>Preserve paragraph and section boundaries</li>
+                <li>Keep tables and lists intact</li>
+                <li>Add overlapping context windows (256 tokens overlap)</li>
+                <li>Metadata tagging for document structure</li>
+            </ul>
+
+            <h2>Component 2: Multilingual Dense Embeddings</h2>
+            <p>
+                The key to cross-lingual retrieval is using models trained on parallel multilingual data:
+            </p>
+
+            <h3>Model Selection: LaBSE vs mBERT</h3>
+            <p>
+                I evaluated multiple embedding models:
+            </p>
+            <ul>
+                <li><strong>LaBSE (Language-agnostic BERT Sentence Embeddings):</strong> Trained on 109 languages with
+                    translation pairs, excellent for semantic similarity across languages</li>
+                <li><strong>mBERT (Multilingual BERT):</strong> Good general-purpose embeddings but weaker cross-lingual
+                    alignment</li>
+                <li><strong>XLM-RoBERTa:</strong> Strong performance but larger model size</li>
+            </ul>
+
+            <p>
+                <strong>Winner:</strong> LaBSE for its superior cross-lingual retrieval performance despite slightly
+                higher inference cost.
+            </p>
+
+            <h3>Vector Storage with FAISS</h3>
+            <p>
+                For efficient similarity search over millions of document chunks, I used FAISS (Facebook AI Similarity
+                Search):
+            </p>
+
+            <pre><code>import faiss
+import numpy as np
+
+# Create FAISS index with inner product similarity
+dimension = 768  # LaBSE embedding size
+index = faiss.IndexFlatIP(dimension)
+
+# Normalize embeddings for cosine similarity
+faiss.normalize_L2(embeddings)
+index.add(embeddings)
+
+# Search with GPU acceleration (optional)
+gpu_index = faiss.index_cpu_to_gpu(
+    faiss.StandardGpuResources(), 0, index
+)</code></pre>
+
+            <h2>Component 3: Cross-Encoder Reranking</h2>
+            <p>
+                Initial retrieval using dense embeddings can miss nuanced matches. A two-stage approach improves
+                precision:
+            </p>
+            <ol>
+                <li><strong>Stage 1 (Fast):</strong> FAISS retrieves top 50 candidates (~10ms)</li>
+                <li><strong>Stage 2 (Accurate):</strong> Cross-encoder reranks to top 5 (~100ms)</li>
+            </ol>
+
+            <h3>Why Cross-Encoders?</h3>
+            <p>
+                Unlike bi-encoders (which encode query and document separately), cross-encoders process them
+                <strong>jointly</strong>, capturing fine-grained interaction signals:
+            </p>
+
+            <pre><code>from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+model_name = "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+reranker = AutoModelForSequenceClassification.from_pretrained(model_name)
+
+def rerank(query, candidates):
+    pairs = [[query, doc] for doc in candidates]
+    inputs = tokenizer(pairs, padding=True, truncation=True, 
+                      return_tensors='pt', max_length=512)
+    scores = reranker(**inputs).logits.squeeze(-1)
+    return scores.argsort(descending=True)</code></pre>
+
+            <h2>Component 4: Contextual Answer Generation</h2>
+            <p>
+                With the most relevant chunks retrieved, I use sequence-to-sequence models for answer generation:
+            </p>
+
+            <h3>Model: mT5 (Multilingual Text-to-Text Transfer Transformer)</h3>
+            <ul>
+                <li>Covers 101 languages including all major Indian languages</li>
+                <li>Trained on mC4 corpus (multilingual Common Crawl)</li>
+                <li>Supports abstractive and extractive QA</li>
+            </ul>
+
+            <pre><code>from transformers import MT5ForConditionalGeneration, MT5Tokenizer
+
+model = MT5ForConditionalGeneration.from_pretrained("google/mt5-large")
+tokenizer = MT5Tokenizer.from_pretrained("google/mt5-large")
+
+def generate_answer(query, context):
+    input_text = f"question: {query} context: {context}"
+    inputs = tokenizer(input_text, return_tensors="pt", 
+                      max_length=1024, truncation=True)
+    
+    outputs = model.generate(
+        **inputs,
+        max_length=256,
+        num_beams=4,
+        early_stopping=True,
+        no_repeat_ngram_size=3
+    )
+    
+    return tokenizer.decode(outputs[0], skip_special_tokens=True)</code></pre>
+
+            <h2>Deployment: FastAPI Service</h2>
+            <p>
+                For production deployment, I built a REST API with FastAPI:
+            </p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Async processing:</strong> Non-blocking I/O for concurrent requests</li>
+                <li><strong>Response streaming:</strong> Progressive answer generation</li>
+                <li><strong>Caching:</strong> Redis for frequent queries</li>
+                <li><strong>Rate limiting:</strong> Protect against abuse</li>
+                <li><strong>Monitoring:</strong> Prometheus metrics and logging</li>
+            </ul>
+
+            <pre><code>from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import asyncio
+
+app = FastAPI(title="IndicRAG API")
+
+class Query(BaseModel):
+    question: str
+    language: str
+    top_k: int = 5
+
+@app.post("/ask")
+async def ask_question(query: Query):
+    # Retrieve relevant chunks
+    chunks = await retrieve_chunks(
+        query.question, 
+        query.language, 
+        top_k=query.top_k
+    )
+    
+    # Rerank
+    reranked = await rerank_chunks(query.question, chunks)
+    
+    # Generate answer
+    answer = await generate_answer(
+        query.question, 
+        reranked[:3]
+    )
+    
+    return {
+        "answer": answer,
+        "sources": [chunk.metadata for chunk in reranked[:3]],
+        "confidence": calculate_confidence(reranked)
+    }</code></pre>
+
+            <h2>Performance Optimizations</h2>
+
+            <h3>1. Model Quantization</h3>
+            <p>
+                Reduced model size by 4x using INT8 quantization with negligible accuracy loss:
+            </p>
+            <ul>
+                <li>FP32 mT5-large: 2.4GB → INT8: 600MB</li>
+                <li>Inference speed: 2.3x faster on CPU</li>
+            </ul>
+
+            <h3>2. Batch Processing</h3>
+            <p>
+                Process multiple queries together for better GPU utilization:
+            </p>
+            <pre><code># Batch encoding
+embeddings = model.encode(
+    sentences,
+    batch_size=32,
+    show_progress_bar=False,
+    convert_to_numpy=True
+)</code></pre>
+
+            <h3>3. Approximate Nearest Neighbors</h3>
+            <p>
+                For very large document collections (>10M chunks), use HNSW indexing:
+            </p>
+            <pre><code># FAISS HNSW index for fast approximate search
+index = faiss.IndexHNSWFlat(dimension, 32)
+index.hnsw.efConstruction = 200
+index.hnsw.efSearch = 128</code></pre>
+
+            <h2>Evaluation Metrics</h2>
+            <p>
+                I evaluated IndicRAG on multiple benchmarks:
+            </p>
+            <ul>
+                <li><strong>XQuAD (Hindi/Telugu):</strong> F1 Score 78.3%</li>
+                <li><strong>AI2 Reasoning Challenge (translated):</strong> 71.2% accuracy</li>
+                <li><strong>Custom domain QA:</strong> 82.5% exact match on legal documents</li>
+                <li><strong>Retrieval precision@5:</strong> 89.7%</li>
+            </ul>
+
+            <h2>Real-World Challenges & Solutions</h2>
+
+            <h3>Challenge 1: Code-Mixed Queries</h3>
+            <p>
+                Users often ask "What is property tax in मुंबई?" (mixing English and Hindi)
+            </p>
+            <p>
+                <strong>Solution:</strong> Language detection with fallback to multi-script embedding models
+            </p>
+
+            <h3>Challenge 2: Domain Terminology</h3>
+            <p>
+                Legal and medical terms often lack good translations
+            </p>
+            <p>
+                <strong>Solution:</strong> Custom terminology dictionaries and domain-specific fine-tuning
+            </p>
+
+            <h3>Challenge 3: Context Window Limitations</h3>
+            <p>
+                Long documents exceed model context limits (512-1024 tokens)
+            </p>
+            <p>
+                <strong>Solution:</strong> Hierarchical retrieval with document-level and chunk-level search
+            </p>
+
+            <h2>Lessons Learned</h2>
+
+            <ol>
+                <li><strong>Language-specific preprocessing matters:</strong> Hindi text requires different tokenization
+                    than Tamil</li>
+                <li><strong>Evaluation is hard:</strong> Translation-based evaluation misses cultural context</li>
+                <li><strong>User feedback loops:</strong> Implicit feedback (click-through) beats explicit ratings</li>
+                <li><strong>Fallback strategies:</strong> Always have a plan when models fail (e.g., keyword search)
+                </li>
+            </ol>
+
+            <h2>Open Source & GitHub</h2>
+            <p>
+                The complete IndicRAG codebase is available on GitHub:
+            </p>
+            <blockquote>
+                <a href="https://github.com/DNSdecoded/IndicRAG"
+                    style="color: var(--accent-primary); font-weight: 600;">github.com/DNSdecoded/IndicRAG</a>
+            </blockquote>
+
+            <p>
+                Includes:
+            </p>
+            <ul>
+                <li>Document preprocessing pipeline</li>
+                <li>Multi-stage retrieval implementation</li>
+                <li>FastAPI deployment code</li>
+                <li>Docker containerization</li>
+                <li>Evaluation scripts and benchmarks</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+            <p>
+                Building production-grade multilingual NLP systems requires balancing model performance, inference
+                speed, and engineering complexity. IndicRAG demonstrates that with careful architecture and
+                optimization, it's possible to serve accurate, fast question-answering across diverse Indian languages.
+            </p>
+
+            <p>
+                The key takeaways:
+            </p>
+            <ul>
+                <li>Use multilingual models trained on parallel data (LaBSE, mT5)</li>
+                <li>Implement two-stage retrieval (fast dense + accurate reranking)</li>
+                <li>Optimize for production (quantization, batching, caching)</li>
+                <li>Plan for edge cases (code-mixing, domain terms, long contexts)</li>
+            </ul>
+
+            <p style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);">
+                <em>Questions about multilingual RAG or want to collaborate? <a href="../index.html#contact"
+                        style="color: var(--accent-primary); font-weight: 600;">Get in touch</a>!</em>
+            </p>
+
+            <a href="./index.html" class="back-to-blog" style="margin-top: 2rem; display: inline-flex;">← Back to
+                Blog</a>
+        </div>
+    </article>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">&copy; 2025 Sakhinala Sanjay Bhargav. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="https://linkedin.com/in/sanjay-sakhinala" target="_blank" aria-label="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com/DNSdecoded" target="_blank" aria-label="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../scripts.js"></script>
+    <script data-goatcounter="https://sanjaysakhinala.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+
+</html>

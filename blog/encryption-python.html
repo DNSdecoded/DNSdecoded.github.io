@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Learn how to implement hybrid AES-256 and RSA-2048 cryptography with secure key exchange protocols for zero-knowledge architecture messaging.">
+    <title>End-to-End Encryption in Python - Sanjay Sakhinala</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .blog-post-header {
+            padding: 120px 0 40px;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .blog-post-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .blog-post-meta-info {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .blog-post-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-lg);
+        }
+
+        .blog-post-content h2 {
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+            color: var(--accent-primary);
+        }
+
+        .blog-post-content h3 {
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .blog-post-content p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-secondary);
+        }
+
+        .blog-post-content ul,
+        .blog-post-content ol {
+            margin-bottom: var(--spacing-md);
+            padding-left: 2rem;
+        }
+
+        .blog-post-content li {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-secondary);
+        }
+
+        .blog-post-content code {
+            background: var(--bg-primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            color: var(--accent-primary);
+        }
+
+        .blog-post-content pre {
+            background: var(--bg-primary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            margin-bottom: var(--spacing-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .blog-post-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .blog-post-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .blog-post-content blockquote {
+            border-left: 4px solid var(--accent-primary);
+            padding-left: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .back-to-blog {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            transition: all var(--transition-fast);
+        }
+
+        .back-to-blog:hover {
+            gap: 0.75rem;
+        }
+
+        .blog-tags-post {
+            display: flex;
+            gap: var(--spacing-xs);
+            flex-wrap: wrap;
+            margin-top: var(--spacing-md);
+        }
+    </style>
+</head>
+
+<body data-theme="light">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="../index.html" class="logo-text">Sanjay<span class="logo-accent">Sakhinala</span></a>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html#home" class="nav-link">Home</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+                <li><a href="../index.html#projects" class="nav-link">Projects</a></li>
+                <li><a href="./index.html" class="nav-link">Blog</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Header -->
+    <header class="blog-post-header">
+        <div class="container">
+            <h1 class="blog-post-title">End-to-End Encryption in Python: Building Secure Messaging Systems</h1>
+            <div class="blog-post-meta-info">
+                <span>📅 September 2024</span>
+                <span>⏱️ 14 min read</span>
+                <span>✍️ Sanjay Sakhinala</span>
+            </div>
+            <div class="blog-tags-post">
+                <span class="blog-tag">Security</span>
+                <span class="blog-tag">Cryptography</span>
+                <span class="blog-tag">Python</span>
+                <span class="blog-tag">Networking</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Blog Post Content -->
+    <article class="blog-post-content">
+        <div class="container">
+            <a href="./index.html" class="back-to-blog">← Back to Blog</a>
+
+            <h2>Introduction</h2>
+            <p>
+                In an era of mass surveillance and data breaches, end-to-end encryption (E2EE) is no longer
+                optional—it's essential. This post walks through <strong>CipherChat</strong>, a CLI-based secure
+                messaging system I built using hybrid <strong>AES-256 + RSA-2048 cryptography</strong>.
+            </p>
+
+            <p>
+                You'll learn the fundamentals of cryptographic protocols, key exchange mechanisms, and how to implement
+                production-grade encryption in Python.
+            </p>
+
+            <h2>Why Hybrid Encryption?</h2>
+            <p>
+                Neither symmetric nor asymmetric encryption alone is ideal for messaging:
+            </p>
+
+            <h3>Symmetric Encryption (AES)</h3>
+            <ul>
+                <li>✅ <strong>Fast:</strong> Encrypts gigabytes per second</li>
+                <li>✅ <strong>Secure:</strong> AES-256 is military-grade</li>
+                <li>❌ <strong>Key distribution problem:</strong> How do you securely share the key?</li>
+            </ul>
+
+            <h3>Asymmetric Encryption (RSA)</h3>
+            <ul>
+                <li>✅ <strong>No shared secret:</strong> Public keys can be distributed openly</li>
+                <li>✅ <strong>Digital signatures:</strong> Proves message authenticity</li>
+                <li>❌ <strong>Slow:</strong> 100-1000x slower than AES</li>
+                <li>❌ <strong>Size limits:</strong> Can only encrypt small payloads</li>
+            </ul>
+
+            <h3>The Hybrid Solution</h3>
+            <p>
+                Combine both approaches:
+            </p>
+            <ol>
+                <li>Use <strong>RSA to encrypt a random AES key</strong></li>
+                <li>Use <strong>AES to encrypt the actual message</strong></li>
+                <li>Send encrypted AES key + encrypted message</li>
+                <li>Receiver decrypts AES key with their RSA private key</li>
+                <li>Then decrypts message with recovered AES key</li>
+            </ol>
+
+            <blockquote>
+                This is the same approach used by Signal, WhatsApp, and other E2EE messaging apps.
+            </blockquote>
+
+            <h2>Architecture Overview</h2>
+            <p>
+                CipherChat implements a client-server architecture with the following security properties:
+            </p>
+            <ul>
+                <li><strong>Zero-knowledge server:</strong> Server cannot read messages</li>
+                <li><strong>Forward secrecy:</strong> Compromised keys don't expose past messages</li>
+                <li><strong>Message authenticity:</strong> SHA-256 HMAC prevents tampering</li>
+                <li><strong>Identity authentication:</strong> Public key fingerprints verify users</li>
+            </ul>
+
+            <h2>Implementation: RSA Key Generation</h2>
+            <p>
+                First, each client generates an RSA-2048 key pair:
+            </p>
+
+            <pre><code>from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives import serialization
+
+def generate_rsa_keypair():
+    """Generate RSA-2048 public/private key pair"""
+    private_key = rsa.generate_private_key(
+        public_exponent=65537,
+        key_size=2048
+    )
+    public_key = private_key.public_key()
+    
+    # Serialize for storage/transmission
+    private_pem = private_key.private_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=serialization.NoEncryption()
+    )
+    
+    public_pem = public_key.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo
+    )
+    
+    return private_pem, public_pem</code></pre>
+
+            <h3>Why RSA-2048?</h3>
+            <p>
+                RSA-2048 provides <strong>112 bits of security</strong>, equivalent to AES-128. While RSA-4096 is more
+                secure, it's significantly slower with minimal practical benefit for most applications.
+            </p>
+
+            <h2>Secure Key Exchange Protocol</h2>
+            <p>
+                The key exchange happens when two clients want to start a conversation:
+            </p>
+
+            <h3>Step 1: Public Key Distribution</h3>
+            <pre><code>class KeyExchange:
+    def __init__(self, own_private_key, own_public_key):
+        self.private_key = own_private_key
+        self.public_key = own_public_key
+        self.peer_public_keys = {}  # username -> public_key
+    
+    def register_peer(self, username, public_key_pem):
+        """Verify and store peer's public key"""
+        # Load public key
+        public_key = serialization.load_pem_public_key(public_key_pem)
+        
+        # Calculate fingerprint for verification
+        fingerprint = sha256(public_key_pem).hexdigest()[:16]
+        print(f"Fingerprint for {username}: {fingerprint}")
+        
+        # In production, user should verify this out-of-band
+        self.peer_public_keys[username] = public_key</code></pre>
+
+            <h3>Step 2: Encrypt Session Key</h3>
+            <pre><code>from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding
+import os
+
+def encrypt_session_key(session_key, recipient_public_key):
+    """Encrypt AES session key with recipient's RSA public key"""
+    encrypted_key = recipient_public_key.encrypt(
+        session_key,
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+    return encrypted_key
+
+# Generate random AES-256 key for this session
+session_key = os.urandom(32)  # 256 bits</code></pre>
+
+            <h2>Message Encryption with AES-256</h2>
+            <p>
+                Once we have a shared session key, we use AES-256 in GCM mode for authenticated encryption:
+            </p>
+
+            <pre><code>from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+import os
+
+class MessageEncryption:
+    def __init__(self, session_key):
+        self.cipher = AESGCM(session_key)
+    
+    def encrypt_message(self, plaintext):
+        """Encrypt message with AES-256-GCM"""
+        # Generate unique nonce (IV) for each message
+        nonce = os.urandom(12)  # GCM standard nonce size
+        
+        # Encrypt and authenticate
+        ciphertext = self.cipher.encrypt(
+            nonce,
+            plaintext.encode('utf-8'),
+            None  # No additional authenticated data
+        )
+        
+        # Return nonce + ciphertext
+        return nonce + ciphertext
+    
+    def decrypt_message(self, encrypted_data):
+        """Decrypt AES-256-GCM encrypted message"""
+        # Split nonce and ciphertext
+        nonce = encrypted_data[:12]
+        ciphertext = encrypted_data[12:]
+        
+        # Decrypt and verify authenticity
+        plaintext = self.cipher.decrypt(nonce, ciphertext, None)
+        return plaintext.decode('utf-8')</code></pre>
+
+            <h3>Why AES-GCM?</h3>
+            <p>
+                GCM (Galois/Counter Mode) provides both <strong>confidentiality and authenticity</strong>:
+            </p>
+            <ul>
+                <li>Encryption prevents eavesdropping</li>
+                <li>Authentication tag prevents tampering</li>
+                <li>Highly efficient (hardware-accelerated on modern CPUs)</li>
+            </ul>
+
+            <h2>TCP Socket Communication</h2>
+            <p>
+                CipherChat uses encrypted TCP sockets for real-time messaging:
+            </p>
+
+            <h3>Server Implementation</h3>
+            <pre><code>import socket
+import threading
+
+class SecureServer:
+    def __init__(self, host='0.0.0.0', port=5555):
+        self.host = host
+        self.port = port
+        self.clients = {}  # socket -> username
+        self.public_keys = {}  # username -> public_key
+    
+    def start(self):
+        """Start listening for connections"""
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        server.bind((self.host, self.port))
+        server.listen()
+        
+        print(f"[*] Server listening on {self.host}:{self.port}")
+        
+        while True:
+            client_socket, address = server.accept()
+            print(f"[+] Connection from {address}")
+            
+            # Handle each client in separate thread
+            thread = threading.Thread(
+                target=self.handle_client,
+                args=(client_socket,)
+            )
+            thread.daemon = True
+            thread.start()
+    
+    def handle_client(self, client_socket):
+        """Handle individual client connection"""
+        try:
+            # Receive username and public key
+            data = client_socket.recv(4096)
+            username, public_key = self.parse_registration(data)
+            
+            self.clients[client_socket] = username
+            self.public_keys[username] = public_key
+            
+            # Broadcast public key to all clients
+            self.broadcast_public_key(username, public_key)
+            
+            # Listen for encrypted messages
+            while True:
+                encrypted_msg = client_socket.recv(4096)
+                if not encrypted_msg:
+                    break
+                
+                # Forward encrypted message (server can't decrypt)
+                self.forward_message(username, encrypted_msg)
+        
+        except Exception as e:
+            print(f"[!] Error: {e}")
+        finally:
+            self.disconnect_client(client_socket)</code></pre>
+
+            <h3>Client Implementation</h3>
+            <pre><code>class SecureClient:
+    def __init__(self, server_host, server_port, username):
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.username = username
+        self.private_key, self.public_key = generate_rsa_keypair()
+        self.session_keys = {}  # peer_username -> AES key
+        
+    def connect(self, server_host, server_port):
+        """Connect to server and register"""
+        self.socket.connect((server_host, server_port))
+        
+        # Send registration data
+        reg_data = self.create_registration_packet()
+        self.socket.send(reg_data)
+        
+        # Start listening thread
+        thread = threading.Thread(target=self.receive_messages)
+        thread.daemon = True
+        thread.start()
+    
+    def send_message(self, recipient, message):
+        """Encrypt and send message to recipient"""
+        # Get or create session key
+        if recipient not in self.session_keys:
+            session_key = os.urandom(32)
+            self.session_keys[recipient] = session_key
+            
+            # Encrypt session key with recipient's public key
+            encrypted_key = encrypt_session_key(
+                session_key,
+                self.peer_public_keys[recipient]
+            )
+            
+            # Send encrypted key first
+            key_packet = self.create_key_packet(recipient, encrypted_key)
+            self.socket.send(key_packet)
+        
+        # Encrypt message with session key
+        encryptor = MessageEncryption(self.session_keys[recipient])
+        encrypted_msg = encryptor.encrypt_message(message)
+        
+        # Create and send message packet
+        msg_packet = self.create_message_packet(recipient, encrypted_msg)
+        self.socket.send(msg_packet)</code></pre>
+
+            <h2>Message Integrity with HMAC</h2>
+            <p>
+                To prevent tampering, each message includes an HMAC (Hash-based Message Authentication Code):
+            </p>
+
+            <pre><code>import hmac
+import hashlib
+
+def create_hmac(session_key, message):
+    """Generate SHA-256 HMAC for message"""
+    return hmac.new(
+        session_key,
+        message,
+        hashlib.sha256
+    ).digest()
+
+def verify_hmac(session_key, message, received_hmac):
+    """Verify message HMAC"""
+    expected_hmac = create_hmac(session_key, message)
+    return hmac.compare_digest(expected_hmac, received_hmac)
+
+# In message sending:
+def send_authenticated_message(message, session_key):
+    encrypted = encrypt_message(message, session_key)
+    mac = create_hmac(session_key, encrypted)
+    return encrypted + mac  # Encrypt-then-MAC pattern</code></pre>
+
+            <h3>Encrypt-then-MAC</h3>
+            <p>
+                Always MAC the ciphertext, not the plaintext. This prevents certain classes of attacks and provides
+                slightly stronger security guarantees.
+            </p>
+
+            <h2>Multi-User Chat Room</h2>
+            <p>
+                Supporting group chats requires careful key management:
+            </p>
+
+            <pre><code>class GroupChat:
+    def __init__(self, room_name):
+        self.room_name = room_name
+        self.members = set()
+        self.ephemeral_key = os.urandom(32)  # Shared room key
+    
+    def add_member(self, username, public_key):
+        """Add member and send them the room key"""
+        self.members.add(username)
+        
+        # Encrypt room key with member's public key
+        encrypted_room_key = encrypt_session_key(
+            self.ephemeral_key,
+            public_key
+        )
+        
+        # Send encrypted key to new member
+        send_encrypted_key(username, encrypted_room_key)
+    
+    def broadcast_message(self, sender, message):
+        """Encrypt message with room key and broadcast"""
+        encryptor = MessageEncryption(self.ephemeral_key)
+        encrypted = encryptor.encrypt_message(message)
+        
+        # Send to all members except sender
+        for member in self.members:
+            if member != sender:
+                send_to_user(member, encrypted)</code></pre>
+
+            <h2>Security Considerations</h2>
+
+            <h3>1. Forward Secrecy</h3>
+            <p>
+                Generate new session keys periodically to limit exposure if keys are compromised:
+            </p>
+            <pre><code>def rotate_session_key(self, recipient):
+    """Rotate session key every N messages or T seconds"""
+    new_key = os.urandom(32)
+    self.send_new_session_key(recipient, new_key)
+    self.session_keys[recipient] = new_key</code></pre>
+
+            <h3>2. Replay Attack Prevention</h3>
+            <p>
+                Include message sequence numbers and timestamps:
+            </p>
+            <pre><code>class MessagePacket:
+    def __init__(self, sender, recipient, encrypted_data):
+        self.sender = sender
+        self.recipient = recipient
+        self.data = encrypted_data
+        self.timestamp = int(time.time())
+        self.sequence_num = self.get_next_sequence()
+    
+    def verify(self, expected_sequence):
+        """Verify sequence number and timestamp"""
+        time_diff = abs(time.time() - self.timestamp)
+        if time_diff > 300:  # 5 minute window
+            raise SecurityError("Message too old")
+        
+        if self.sequence_num != expected_sequence:
+            raise SecurityError("Invalid sequence number")</code></pre>
+
+            <h3>3. Denial of Service Protection</h3>
+            <ul>
+                <li>Rate limiting: Max N connections per IP</li>
+                <li>Message size limits: Reject oversized packets</li>
+                <li>Resource quotas: Per-user memory/CPU limits</li>
+            </ul>
+
+            <h2>Performance Optimizations</h2>
+
+            <h3>Connection Pooling</h3>
+            <pre><code>class ConnectionPool:
+    def __init__(self, max_connections=100):
+        self.pool = []
+        self.max_connections = max_connections
+        self.lock = threading.Lock()
+    
+    def get_connection(self):
+        with self.lock:
+            if self.pool:
+                return self.pool.pop()
+            return self.create_connection()
+    
+    def release_connection(self, conn):
+        with self.lock:
+            if len(self.pool) < self.max_connections:
+                self.pool.append(conn)</code></pre>
+
+            <h3>Async I/O with asyncio</h3>
+            <p>
+                For better scalability, use asynchronous networking:
+            </p>
+            <pre><code>import asyncio
+
+async def handle_client_async(reader, writer):
+    """Async client handler"""
+    try:
+        while True:
+            data = await reader.read(4096)
+            if not data:
+                break
+            
+            # Process message asynchronously
+            response = await process_message(data)
+            writer.write(response)
+            await writer.drain()
+    finally:
+        writer.close()
+        await writer.wait_closed()</code></pre>
+
+            <h2>Testing & Validation</h2>
+            <p>
+                Security testing checklist:
+            </p>
+            <ul>
+                <li>✅ Man-in-the-middle attack resistance</li>
+                <li>✅ Replay attack prevention</li>
+                <li>✅ Forward secrecy verification</li>
+                <li>✅ Message tampering detection</li>
+                <li>✅ Large message handling (>1MB)</li>
+                <li>✅ Connection interruption recovery</li>
+                <li>✅ Concurrent user stress testing</li>
+            </ul>
+
+            <h2>Deployment & Production Hardening</h2>
+            <p>
+                For production use:
+            </p>
+            <ol>
+                <li><strong>Use TLS:</strong> Wrap sockets in TLS/SSL for transport security</li>
+                <li><strong>Key storage:</strong> Encrypt private keys at rest with password-derived keys</li>
+                <li><strong>Logging:</strong> Log security events without exposing sensitive data</li>
+                <li><strong>Updates:</strong> Plan for protocol version upgrades</li>
+                <li><strong>Auditing:</strong> Regular security audits and penetration testing</li>
+            </ol>
+
+            <h2>Open Source: CipherChat on GitHub</h2>
+            <p>
+                The complete implementation is available:
+            </p>
+            <blockquote>
+                <a href="https://github.com/DNSdecoded/CipherChat"
+                    style="color: var(--accent-primary); font-weight: 600;">github.com/DNSdecoded/CipherChat</a>
+            </blockquote>
+
+            <p>
+                Includes:
+            </p>
+            <ul>
+                <li>Full client and server implementation</li>
+                <li>Multi-user chat rooms</li>
+                <li>File transfer support</li>
+                <li>CLI interface with rich formatting</li>
+                <li>Comprehensive test suite</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+            <p>
+                Building secure systems requires understanding both cryptographic primitives and practical engineering
+                considerations. CipherChat demonstrates that with careful design, you can create production-grade
+                encrypted communication systems using Python's cryptography libraries.
+            </p>
+
+            <p>
+                <strong>Key takeaways:</strong>
+            </p>
+            <ul>
+                <li>Use hybrid encryption (RSA + AES) for performance and security</li>
+                <li>Implement proper key exchange protocols</li>
+                <li>Always use authenticated encryption (GCM or Encrypt-then-MAC)</li>
+                <li>Design for forward secrecy and replay attack prevention</li>
+                <li>Test thoroughly against known attack vectors</li>
+            </ul>
+
+            <p style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);">
+                <em>Interested in cryptography or secure systems? <a href="../index.html#contact"
+                        style="color: var(--accent-primary); font-weight: 600;">Let's connect</a>!</em>
+            </p>
+
+            <a href="./index.html" class="back-to-blog" style="margin-top: 2rem; display: inline-flex;">← Back to
+                Blog</a>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">&copy; 2025 Sakhinala Sanjay Bhargav. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="https://linkedin.com/in/sanjay-sakhinala" target="_blank" aria-label="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com/DNSdecoded" target="_blank" aria-label="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../scripts.js"></script>
+    <script data-goatcounter="https://sanjaysakhinala.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+
+</html>
