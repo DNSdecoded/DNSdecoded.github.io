@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+*.log
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backups
+*.backup
+*.bak
+
+# Environment
+.env
+.env.local
+
+# Testing
+coverage/
+.nyc_output/

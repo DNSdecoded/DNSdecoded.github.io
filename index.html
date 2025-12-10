@@ -1,11 +1,760 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Sanjay Bhargav - AI/ML Portfolio</title>
-    <meta http-equiv="refresh" content="0;url=https://sanjaysakhinala.pages.dev" />
-  </head>
-  <body>
-    <p>Redirecting to portfolio…</p>
-  </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Sakhinala Sanjay Bhargav - AI/ML Engineer specializing in Deep Learning, Computer Vision, and Reinforcement Learning. Portfolio showcasing projects, publications, and professional experience.">
+    <meta name="keywords"
+        content="AI Engineer, ML Engineer, Deep Learning, Computer Vision, Reinforcement Learning, NLP, MLOps, Python">
+    <meta name="author" content="Sakhinala Sanjay Bhargav">
+    <title>Sanjay Bhargav - AI/ML Engineer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-theme="light">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <span class="logo-text">Sanjay<span class="logo-accent">Sakhinala</span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#certifications" class="nav-link">Certifications</a></li>
+                <li><a href="#publications" class="nav-link">Publications</a></li>
+                <li><a href="#blog" class="nav-link">Blog</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+                    <span class="hamburger"></span>
+                    <span class="hamburger"></span>
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <p class="hero-greeting">Hello, I'm</p>
+                    <h1 class="hero-name">Sakhinala Sanjay Bhargav</h1>
+                    <p class="hero-title">AI/ML Engineer</p>
+
+                    <p class="hero-description">
+                        Turning cutting-edge research into real-world AI systems, with hands-on experience
+                        in computer vision, NLP, and reinforcement learning strengthened by published work
+                        and practical MLOps deployment.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                        <a href="./SanjayBhargav_AI_ML_Engineer.pdf" download class="btn btn-secondary">
+                            Download Resume
+                        </a>
+                    </div>
+
+                    <div class="hero-social">
+                        <a href="https://linkedin.com/in/sanjay-sakhinala" target="_blank" aria-label="LinkedIn"
+                            class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                            </svg>
+                        </a>
+
+                        <a href="https://github.com/DNSdecoded" target="_blank" aria-label="GitHub" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                        </a>
+
+                        <a href="mailto:sanjaysakhinala@gmail.com" aria-label="Email" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-image">
+                    <div class="image-wrapper">
+                        <img src="./photo.png" alt="Sakhinala Sanjay Bhargav" class="profile-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <p class="about-text">
+                    AI/ML Engineer specializing in transforming advanced research into scalable,
+                    production-ready systems. I engineered a reinforcement learning framework that
+                    delivered a <strong>65% reduction in EM simulation cost</strong> by optimizing antenna
+                    design with uncertainty-aware SAC agents and hybrid surrogate models.
+                </p>
+
+                <p class="about-text">
+                    My experience spans multilingual NLP pipelines, computer vision systems,
+                    large-scale RAG architectures, and secure communication platforms.
+                    I combine deep learning expertise with strong MLOps capabilities—deploying
+                    models using FastAPI, Docker, Vertex AI, and optimized GPU workflows.
+                </p>
+
+                <p class="about-text">
+                    Based in <strong>Pithapuram, Andhra Pradesh, India</strong>, I focus on building
+                    AI solutions that are measurable, reliable, and impactful. My published research
+                    and applied engineering work reflect a commitment to creating real-world
+                    AI systems that solve complex technical and business challenges.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section skills-section">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3 class="skill-category-title">AI & Machine Learning</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Deep Learning</span>
+                        <span class="skill-tag">Computer Vision</span>
+                        <span class="skill-tag">Reinforcement Learning</span>
+                        <span class="skill-tag">SAC & PPO</span>
+                        <span class="skill-tag">Transformers</span>
+                        <span class="skill-tag">RAG</span>
+                        <span class="skill-tag">Multilingual NLP</span>
+                        <span class="skill-tag">Prompt Engineering</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">ML Frameworks</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">Scikit-Learn</span>
+                        <span class="skill-tag">Stable-Baselines3</span>
+                        <span class="skill-tag">HuggingFace</span>
+                        <span class="skill-tag">TorchVision</span>
+                        <span class="skill-tag">OpenCV</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">MLOps & Deployment</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">FastAPI</span>
+                        <span class="skill-tag">Model Serving</span>
+                        <span class="skill-tag">CI/CD Pipelines</span>
+                        <span class="skill-tag">Vertex AI</span>
+                        <span class="skill-tag">REST APIs</span>
+                        <span class="skill-tag">On-Prem Deployment</span>
+                        <span class="skill-tag">GPU Optimization</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Data Engineering & Analytics</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Pandas</span>
+                        <span class="skill-tag">NumPy</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">BigQuery</span>
+                        <span class="skill-tag">Data Wrangling</span>
+                        <span class="skill-tag">Feature Engineering</span>
+                        <span class="skill-tag">Matplotlib</span>
+                        <span class="skill-tag">Seaborn</span>
+                        <span class="skill-tag">Tableau</span>
+                        <span class="skill-tag">Power BI</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Security & Systems</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Linux CLI</span>
+                        <span class="skill-tag">Cryptography</span>
+                        <span class="skill-tag">RSA & AES</span>
+                        <span class="skill-tag">Networking</span>
+                        <span class="skill-tag">TCP/IP</span>
+                        <span class="skill-tag">DNS</span>
+                        <span class="skill-tag">Shell Scripting</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section projects-section">
+        <div class="container">
+            <h2 class="section-title">Key Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Uncertainty-Aware RL System for EM Structure Optimization</h3>
+                        <span class="project-badge">Private Repository</span>
+                    </div>
+                    <p class="project-description">
+                        Architected reinforcement learning framework automating antenna geometry design, reducing CST
+                        simulation calls by <strong>65%</strong>. Implemented uncertainty-aware Soft Actor-Critic agent
+                        with LightGBM + MLP surrogate models, custom Gymnasium environment, and fabrication-feasible
+                        reward shaping.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">PyTorch</span>
+                        <span class="tech-tag">CUDA</span>
+                        <span class="tech-tag">Stable-Baselines3</span>
+                        <span class="tech-tag">LightGBM</span>
+                        <span class="tech-tag">Optuna</span>
+                        <span class="tech-tag">CST API</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-highlight">40% fewer episodes to convergence</span>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">IndicRAG — Multilingual Indic Document QA System</h3>
+                        <a href="https://github.com/DNSdecoded/IndicRAG" target="_blank" class="project-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">
+                        Built production-ready RAG pipeline supporting <strong>12+ Indian languages</strong> with
+                        multilingual dense embeddings and cross-encoder reranking. Integrated OCR for scanned PDFs,
+                        semantic chunking for long documents, and deployed FastAPI service.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">HuggingFace Transformers</span>
+                        <span class="tech-tag">FAISS</span>
+                        <span class="tech-tag">PyTesseract</span>
+                        <span class="tech-tag">FastAPI</span>
+                        <span class="tech-tag">RAG</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-highlight">Production-ready multilingual QA</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">CipherChat — Secure End-to-End Encrypted Messenger</h3>
+                        <a href="https://github.com/DNSdecoded/CipherChat" target="_blank" class="project-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">
+                        Engineered CLI-based encrypted messaging system using <strong>AES-256 + RSA-2048</strong> hybrid
+                        cryptography. Implemented secure key exchange protocol, encrypted TCP sockets with SHA-256
+                        integrity verification, and multi-user real-time messaging with zero-knowledge architecture.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Socket Programming</span>
+                        <span class="tech-tag">Cryptography</span>
+                        <span class="tech-tag">TCP/IP</span>
+                        <span class="tech-tag">Multi-threading</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-highlight">Enterprise-grade encryption</span>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">EuroSAT Land Use Classification</h3>
+                        <a href="https://github.com/DNSdecoded/landuse-cnn-eurosat" target="_blank"
+                            class="project-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">
+                        Developed CNN achieving <strong>89% test accuracy</strong> across 10 land-use classes on
+                        satellite imagery. Integrated Grad-CAM explainability for feature attribution and model
+                        interpretability.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">PyTorch</span>
+                        <span class="tech-tag">TorchVision</span>
+                        <span class="tech-tag">OpenCV</span>
+                        <span class="tech-tag">Grad-CAM</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-highlight">Explainable AI for satellite imagery</span>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">DNS Resolver Performance Benchmark</h3>
+                        <a href="https://github.com/DNSdecoded/dns_analyzer" target="_blank" class="project-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-description">
+                        Built multithreaded DNS benchmarking tool measuring latency across <strong>15+ global
+                            providers</strong>. Automated CSV analytics and visualization for resolver performance
+                        comparison and optimization insights.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">dnspython</span>
+                        <span class="tech-tag">Pandas</span>
+                        <span class="tech-tag">Matplotlib</span>
+                        <span class="tech-tag">Concurrent Processing</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-highlight">Network performance optimization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section experience-section">
+        <div class="container">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="experience-timeline">
+                <!-- Experience 1 -->
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3 class="experience-title">AI/ML Intern</h3>
+                            <p class="experience-company">Google (via EduSkills)</p>
+                        </div>
+                        <span class="experience-date">Jan 2025 – Mar 2025</span>
+                    </div>
+                    <ul class="experience-list">
+                        <li>Developed computer vision modules using Python and OpenCV to automate image detection tasks
+                            for mobile applications</li>
+                        <li>Evaluated model performance and deployed ML pipelines using Google's Vertex AI and Model
+                            Deployment APIs</li>
+                        <li>Integrated ML features into end-to-end app workflows, enabling real-time inference and
+                            improved automation efficiency</li>
+                    </ul>
+                </div>
+
+                <!-- Experience 2 -->
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3 class="experience-title">Cybersecurity Intern</h3>
+                            <p class="experience-company">Palo Alto Networks (via EduSkills)</p>
+                        </div>
+                        <span class="experience-date">Oct 2024 – Dec 2024</span>
+                    </div>
+                    <ul class="experience-list">
+                        <li>Implemented firewall policy optimization to strengthen network access control and reduce
+                            alert false positives</li>
+                        <li>Analyzed threat logs and worked with SIEM workflows to identify anomalies using intelligent
+                            log-correlation systems</li>
+                        <li>Gained working knowledge of secure network design, intrusion detection fundamentals, and
+                            endpoint protection frameworks</li>
+                    </ul>
+                </div>
+
+                <!-- Experience 3 -->
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3 class="experience-title">Data Science Applied Training</h3>
+                            <p class="experience-company">Altair (via EduSkills)</p>
+                        </div>
+                        <span class="experience-date">Apr 2024 – Jun 2024</span>
+                    </div>
+                    <ul class="experience-list">
+                        <li>Built no-code ML pipelines in RapidMiner for data preprocessing, feature engineering, and
+                            model evaluation</li>
+                        <li>Applied supervised learning algorithms like SVM and Random Forest to tackle classification
+                            tasks and performance benchmarking</li>
+                        <li>Performed exploratory data analysis (EDA) and interpreted results to derive actionable data
+                            insights</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="section education-section">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <div class="education-grid">
+                <!-- Education 1 -->
+                <div class="education-card">
+                    <div class="education-icon">🎓</div>
+                    <h3 class="education-degree">B.Tech in Electronics and Communication Engineering</h3>
+                    <p class="education-school">Bapatla Engineering College, Andhra Pradesh</p>
+                    <div class="education-details">
+                        <span class="education-date">May 2025</span>
+                    </div>
+                </div>
+
+                <!-- Education 2 -->
+                <div class="education-card">
+                    <div class="education-icon">📚</div>
+                    <h3 class="education-degree">Diploma in Electronics and Communication Engineering</h3>
+                    <p class="education-school">Aditya College of Engineering, Surampalem, AP</p>
+                    <div class="education-details">
+                        <span class="education-date">Oct 2021</span>
+                    </div>
+                </div>
+
+                <!-- Education 3 -->
+                <div class="education-card">
+                    <div class="education-icon">📖</div>
+                    <h3 class="education-degree">Secondary School Certificate (SSC)</h3>
+                    <p class="education-school">Ravindra Bharathi High School, Pithapuram, AP</p>
+                    <div class="education-details">
+                        <span class="education-date">Apr 2018</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="section certifications-section">
+        <div class="container">
+            <h2 class="section-title">Certifications</h2>
+            <div class="certifications-grid">
+                <div class="certification-card">
+                    <div class="cert-badge">✓</div>
+                    <h3 class="cert-title">Google Data Analytics Professional Certificate</h3>
+                    <p class="cert-skills">SQL • R Programming • Data Cleaning • Tableau • Business Communication</p>
+                    <span class="cert-date">March 2025</span>
+                </div>
+
+                <div class="certification-card">
+                    <div class="cert-badge">✓</div>
+                    <h3 class="cert-title">Google Cybersecurity Professional Certificate</h3>
+                    <p class="cert-skills">Network Security • Python • Linux • Cloud Security • Network Architecture</p>
+                    <span class="cert-date">May 2024</span>
+                </div>
+
+                <div class="certification-card">
+                    <div class="cert-badge">✓</div>
+                    <h3 class="cert-title">Google Prompting Essentials</h3>
+                    <p class="cert-skills">Prompt Engineering for GenAI Workflows</p>
+                    <span class="cert-date">May 2025</span>
+                </div>
+
+                <div class="certification-card">
+                    <div class="cert-badge">✓</div>
+                    <h3 class="cert-title">AI For Everyone — DeepLearning.AI</h3>
+                    <p class="cert-skills">AI Strategy • ML Fundamentals • Business Use-Cases</p>
+                    <span class="cert-date">February 2025</span>
+                </div>
+
+                <div class="certification-card">
+                    <div class="cert-badge">✓</div>
+                    <h3 class="cert-title">Google Skill Badges (10+)</h3>
+                    <p class="cert-skills">TensorFlow • Image Classification • Object Detection • Product Search</p>
+                    <span class="cert-date">2024-2025</span>
+                </div>
+
+                <div class="certification-card">
+                    <div class="cert-badge">✓</div>
+                    <h3 class="cert-title">NPTEL: Cloud Computing</h3>
+                    <p class="cert-skills">Engineering Architecture • Virtualization Concepts</p>
+                    <span class="cert-date">2024</span>
+                </div>
+
+                <div class="certification-card">
+                    <div class="cert-badge">✓</div>
+                    <h3 class="cert-title">NPTEL: Computer Networks & Internet Protocols</h3>
+                    <p class="cert-skills">TCP/IP • Routing • DNS • Network Performance</p>
+                    <span class="cert-date">2024</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications & Patents Section -->
+    <section id="publications" class="section publications-section">
+        <div class="container">
+            <h2 class="section-title">Publications & Patents</h2>
+
+            <!-- Patent -->
+            <div class="publication-category">
+                <h3 class="pub-category-title">Patent</h3>
+                <div class="publication-card patent-card">
+                    <div class="pub-icon">🔬</div>
+                    <div class="pub-content">
+                        <h4 class="pub-title">Design of Hexagonal Patch Antenna at 28 GHz</h4>
+                        <p class="pub-authors">Inventor: Sakhinala Sanjay Bhargav</p>
+                        <p class="pub-details">Application No.: 202541014595 A | Published: March 7, 2025 (India)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Publications -->
+            <div class="publication-category">
+                <h3 class="pub-category-title">Publications</h3>
+
+                <div class="publication-card">
+                    <div class="pub-icon">📄</div>
+                    <div class="pub-content">
+                        <h4 class="pub-title">Bandwidth Enhancement of Slotted Hexagonal Patch Antenna for 6G Ultra-Fast
+                            Data Transfer and Brain-Computer Interface</h4>
+                        <p class="pub-venue">Presented at ICMOCE 2025, IIT Bhubaneswar</p>
+                        <div class="pub-links">
+                            <a href="https://doi.org/10.1109/ICMOCE64100.2025.11076991" target="_blank"
+                                class="pub-link">
+                                DOI: 10.1109/ICMOCE64100.2025.11076991
+                            </a>
+                            <span class="pub-date">July 17, 2025</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication-card">
+                    <div class="pub-icon">📄</div>
+                    <div class="pub-content">
+                        <h4 class="pub-title">Bandwidth Optimization of Slotted Circular Patch Antenna for 6G Ultra-Fast
+                            Data Transfer and Brain-Computer Interface Application</h4>
+                        <p class="pub-venue">Presented at 16th ICCCNT 2025, IIT Indore</p>
+                        <div class="pub-links">
+                            <span class="pub-status">Proceedings submitted to IEEE Xplore — Publication Pending</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication-card">
+                    <div class="pub-icon">📄</div>
+                    <div class="pub-content">
+                        <h4 class="pub-title">Uncertainty-Aware Reinforcement Learning System with Blended Surrogate
+                            Models for Electromagnetic Structure Optimization</h4>
+                        <div class="pub-links">
+                            <span class="pub-status">Status: Under Review</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="section blog-section">
+        <div class="container">
+            <h2 class="section-title">Blog</h2>
+            <div class="blog-grid">
+                <!-- Blog Post 1 -->
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <div class="blog-placeholder">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-date">November 2024</span>
+                        <h3 class="blog-title">Reinforcement Learning for Antenna Design: A Deep Dive</h3>
+                        <p class="blog-excerpt">
+                            Exploring how uncertainty-aware RL agents can optimize electromagnetic structures, reducing
+                            simulation costs by 65% through hybrid surrogate modeling approaches.
+                        </p>
+                        <a href="./blog/rl-antenna-design.html" class="blog-link">Read More →</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 2 -->
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <div class="blog-placeholder">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-date">October 2024</span>
+                        <h3 class="blog-title">Building Multilingual NLP Systems with RAG</h3>
+                        <p class="blog-excerpt">
+                            A practical guide to implementing production-ready retrieval-augmented generation pipelines
+                            for Indian languages with semantic chunking and cross-encoder reranking.
+                        </p>
+                        <a href="./blog/multilingual-rag-systems.html" class="blog-link">Read More →</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 3 -->
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <div class="blog-placeholder">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-date">September 2024</span>
+                        <h3 class="blog-title">End-to-End Encryption in Python: Building Secure Messaging Systems</h3>
+                        <p class="blog-excerpt">
+                            Learn how to implement hybrid AES-256 and RSA-2048 cryptography with secure key exchange
+                            protocols for zero-knowledge architecture messaging.
+                        </p>
+                        <a href="./blog/encryption-python.html" class="blog-link">Read More →</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p class="contact-text">
+                        I'm always interested in hearing about new opportunities, collaborations, or just having a
+                        conversation about AI/ML. Feel free to reach out!
+                    </p>
+
+                    <div class="contact-details" aria-hidden="false">
+                        <div class="contact-item">
+                            <!-- email -->
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z" />
+                            </svg>
+                            <a href="mailto:sanjaysakhinala@gmail.com">sanjaysakhinala@gmail.com</a>
+                        </div>
+
+                        <div class="contact-item">
+                            <!-- phone -->
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M20 10.999h2C22 5.869 18.127 2 12.99 2v2C17.052 4 20 6.943 20 10.999z" />
+                                <path
+                                    d="M13 8c2.103 0 3 .897 3 3h2c0-3.225-1.775-5-5-5v2zm3.422 5.443a1.001 1.001 0 0 0-1.391.043l-2.393 2.461c-.576-.11-1.734-.471-2.926-1.66-1.192-1.193-1.553-2.354-1.66-2.926l2.459-2.394a1 1 0 0 0 .043-1.391L6.859 3.513a1 1 0 0 0-1.391-.087l-2.17 1.861a1 1 0 0 0-.29.649c-.015.25-.301 6.172 4.291 10.766C11.305 20.707 16.323 21 17.705 21c.202 0 .326-.006.359-.008a.992.992 0 0 0 .648-.291l1.86-2.171a.997.997 0 0 0-.086-1.391l-4.064-3.696z" />
+                            </svg>
+                            <a href="tel:+919346481321">+91-9346481321</a>
+                        </div>
+
+                        <div class="contact-item">
+                            <!-- location -->
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                            <span>Pithapuram, Andhra Pradesh, India</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formspree-powered contact form -->
+                <form id="contactForm" class="contact-form" method="POST" action="https://formspree.io/f/xangqlnw"
+                    novalidate>
+                    <!-- Honeypot for spam bots (hidden from users) -->
+                    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+                    <div class="form-group">
+                        <label for="name">Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required aria-required="true">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required
+                            aria-required="true">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message <span class="required">*</span></label>
+                        <textarea id="message" name="message" rows="5" placeholder="Your message here..." required
+                            aria-required="true"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+
+                    <!-- Live form status -->
+                    <div class="form-message" id="formMessage" role="status" aria-live="polite"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">&copy; 2025 Sakhinala Sanjay Bhargav. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="https://linkedin.com/in/sanjay-sakhinala" target="_blank" aria-label="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com/DNSdecoded" target="_blank" aria-label="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                    </a>
+                    <a href="mailto:sanjaysakhinala@gmail.com" aria-label="Email">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+    <script data-goatcounter="https://sanjaysakhinala.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+
 </html>
