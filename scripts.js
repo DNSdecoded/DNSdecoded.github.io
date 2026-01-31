@@ -465,3 +465,11 @@ if (window.location.hostname !== 'localhost' && window.location.hostname !== '12
     console.log = () => { };
     console.warn = () => { };
 }
+
+// ===================================
+// Copyright Year
+// ===================================
+const copyrightYear = document.getElementById('currentYear');
+if (copyrightYear) {
+    copyrightYear.textContent = new Date().getFullYear();
+}
