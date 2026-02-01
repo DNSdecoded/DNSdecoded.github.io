@@ -89,62 +89,122 @@
         }
 
         .blog-post-content code {
-            background: var(--bg-primary);
+            background: var(--bg-secondary);
             padding: 0.2rem 0.5rem;
             border-radius: var(--radius-sm);
             font-family: var(--font-mono);
             font-size: 0.9em;
-            color: var(--accent-primary);
+            color: #000000; /* Pure dark as requested */
+        }
+
+        [data-theme="dark"] .blog-post-content code {
+            color: #ffffff; /* Pure white for dark mode */
         }
 
         .blog-post-content pre {
-            background: var(--bg-primary);
+            background: var(--bg-secondary);
             padding: var(--spacing-md);
+            padding-top: 2.5rem; /* Space for copy button */
             border-radius: var(--radius-md);
             overflow-x: auto;
             margin-bottom: var(--spacing-md);
             border: 1px solid var(--border-color);
+            position: relative; /* Context for copy button */
         }
 
-        .blog-post-content pre code {
-            background: none;
-            padding: 0;
-        }
-
-        .blog-post-content strong {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .blog-post-content blockquote {
-            border-left: 4px solid var(--accent-primary);
-            padding-left: var(--spacing-md);
-            margin: var(--spacing-lg) 0;
-            font-style: italic;
-            color: var(--text-secondary);
-        }
-
-        .back-to-blog {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--accent-primary);
-            font-weight: 600;
-            margin-bottom: var(--spacing-lg);
-            transition: all var(--transition-fast);
-        }
-
-        .back-to-blog:hover {
-            gap: 0.75rem;
-        }
-
-        .blog-tags-post {
+        .copy-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            width: 32px;
+            height: 32px;
             display: flex;
-            gap: var(--spacing-xs);
-            flex-wrap: wrap;
-            margin-top: var(--spacing-md);
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0.7;
+        }
+
+        .copy-button:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            opacity: 1;
+            border-color: var(--text-secondary);
+        }
+
+        .copy-button.copied {
+            border-color: var(--accent-highlight);
+            color: var(--accent-highlight);
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('pre').forEach(pre => {
+                const button = document.createElement('button');
+                button.className = 'copy-button';
+                button.setAttribute('aria-label', 'Copy to clipboard');
+                button.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                `;
+                
+                button.addEventListener('click', async () => {
+                    const code = pre.querySelector('code');
+                    if (!code) return;
+                    
+                    try {
+                        if (navigator.clipboard && window.isSecureContext) {
+                            await navigator.clipboard.writeText(code.innerText);
+                        } else {
+                            // Fallback for non-secure contexts (e.g., file://)
+                            const textArea = document.createElement("textarea");
+                            textArea.value = code.innerText;
+                            textArea.style.position = "fixed";
+                            textArea.style.left = "-9999px";
+                            textArea.style.top = "0";
+                            document.body.appendChild(textArea);
+                            textArea.focus();
+                            textArea.select();
+                            
+                            try {
+                                document.execCommand('copy');
+                            } catch (err) {
+                                console.error('Fallback failed', err);
+                                throw err;
+                            }
+                            
+                            document.body.removeChild(textArea);
+                        }
+                        
+                        // Visual feedback (Icon change only)
+                        const originalHtml = button.innerHTML;
+                        button.innerHTML = `
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        `;
+                        button.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            button.innerHTML = originalHtml;
+                            button.classList.remove('copied');
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy', err);
+                    }
+                });
+                
+                pre.appendChild(button);
+            });
+        });
+    </script>
 </head>
 
 <body data-theme="light">
